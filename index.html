@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manish Kumar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one left-aligned column. A status terminal under the hero, a plain timeline,
+   one featured project with the real promotion pipeline drawn out, then compact rows. */
+:root{
+  --bg:#f1f4f2; --surface:#fafcfb; --ink:#13211b; --muted:#52625a; --line:#d3dcd7;
+  --accent:#0b7a4b; --accent-ink:#ffffff; --fail:#b3261e;
+  --term-bg:#0f1a15; --term-fg:#d6e8de; --term-dim:#7f9a8c; --term-accent:#5be3a4;
+  --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --body:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1411; --surface:#131d18; --ink:#e3ece7; --muted:#9bb0a5; --line:#26352d;
+    --accent:#4fd69a; --accent-ink:#06150e; --fail:#ff8a80;
+    --term-bg:#08100c; --term-fg:#d6e8de; --term-dim:#7f9a8c; --term-accent:#5be3a4;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1411; --surface:#131d18; --ink:#e3ece7; --muted:#9bb0a5; --line:#26352d;
+  --accent:#4fd69a; --accent-ink:#06150e; --fail:#ff8a80;
+  --term-bg:#08100c; --term-fg:#d6e8de; --term-dim:#7f9a8c; --term-accent:#5be3a4;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--body); font-size:1rem; line-height:1.65;
+  padding-block:0;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px}
+.skip{position:absolute; left:-999px; top:0; background:var(--ink); color:var(--bg); padding:.5rem .8rem; z-index:5}
+.skip:focus{left:16px; top:8px}
+.wrap{max-width:880px; margin:0 auto}
+
+/* header */
+.top{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:.5rem 1.5rem; padding-block:1.25rem; border-bottom:1px solid var(--line)}
+.mark{font-family:var(--mono); font-weight:500; letter-spacing:.04em; color:var(--ink); text-decoration:none}
+.mark b{color:var(--accent); font-weight:500}
+.nav{display:flex; flex-wrap:wrap; gap:.25rem 1.4rem}
+.nav a{font-family:var(--mono); font-size:.8rem; color:var(--muted); text-decoration:none}
+.nav a:hover{color:var(--accent)}
+
+/* shared type */
+.label{font-family:var(--mono); font-size:.75rem; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); margin:0 0 .9rem}
+h1,h2,h3{font-family:var(--display); text-wrap:balance; margin:0}
+h1{font-weight:800; font-size:clamp(2.2rem,5.6vw,3.7rem); line-height:1.04; letter-spacing:-.03em; max-width:15em}
+h2{font-weight:800; font-size:clamp(1.55rem,3.4vw,2.1rem); line-height:1.12; letter-spacing:-.02em}
+h3{font-weight:600; font-size:1.15rem; line-height:1.25}
+p{margin:0}
+.lede{max-width:40rem; color:var(--muted); font-size:1.08rem; margin-top:1.25rem}
+section{padding-block:3.5rem 0}
+.sec-head{display:grid; gap:.4rem; margin-bottom:1.6rem}
+.sec-head p{color:var(--muted); max-width:38rem}
+
+/* buttons */
+.cta{display:flex; flex-wrap:wrap; gap:.7rem; margin-top:1.7rem}
+.btn{display:inline-flex; align-items:center; gap:.4rem; padding:.62rem 1.05rem; border-radius:6px; border:1px solid var(--line); background:var(--surface); color:var(--ink); font-weight:500; font-size:.92rem; text-decoration:none; cursor:pointer; font-family:var(--body)}
+.btn:hover{border-color:var(--accent); color:var(--accent)}
+.btn.primary{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08); color:var(--accent-ink)}
+
+/* status terminal */
+.hero{padding-block:3.2rem 0}
+.term{margin-top:2.4rem; background:var(--term-bg); color:var(--term-fg); border-radius:10px; overflow:hidden; font-family:var(--mono); font-size:.86rem; line-height:1.6; border:1px solid var(--line)}
+.term-bar{display:flex; align-items:center; gap:.5rem; padding:.55rem 1rem; color:var(--term-dim); font-size:.76rem; border-bottom:1px solid rgba(127,154,140,.25)}
+.term-bar i{width:8px; height:8px; border-radius:50%; background:var(--term-accent); display:inline-block}
+.term dl{margin:0; padding:.9rem 1rem .4rem; display:grid; gap:.25rem}
+.term dl>div{display:grid; grid-template-columns:7.5rem minmax(0,1fr); gap:.2rem 1rem}
+.term dt{color:var(--term-dim)}
+.term dd{margin:0; overflow-wrap:anywhere}
+.term a{color:var(--term-accent)}
+.term .prompt{padding:.1rem 1rem .9rem; color:var(--term-dim)}
+.term .prompt b{color:var(--term-accent); font-weight:500}
+.caret{display:inline-block; width:.55em; height:1.05em; background:var(--term-accent); vertical-align:-.18em; margin-left:.2rem; animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion: reduce){.caret{animation:none} html{scroll-behavior:auto}}
+
+/* timeline */
+.timeline{display:grid; gap:0; border-top:1px solid var(--line)}
+.role{display:grid; grid-template-columns:10rem minmax(0,1fr); gap:.3rem 2rem; padding-block:1.4rem; border-bottom:1px solid var(--line)}
+.when{font-family:var(--mono); font-size:.8rem; color:var(--muted); padding-top:.2rem}
+.role h3 span{color:var(--accent)}
+.role p{color:var(--muted); margin-top:.45rem; max-width:40rem}
+.role .where{font-size:.88rem; color:var(--muted); margin-top:.1rem}
+
+/* featured project */
+.feature{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:clamp(1.1rem,3vw,1.9rem)}
+.feature h3{font-size:1.45rem; font-family:var(--display); font-weight:800; letter-spacing:-.015em; margin-bottom:.6rem}
+.feature>p{color:var(--muted); max-width:42rem}
+.flow-wrap{overflow-x:auto; margin-block:1.5rem 1.2rem; padding-bottom:.3rem}
+.flow{display:block; width:100%; min-width:640px; height:auto}
+.flow .n{fill:var(--bg); stroke:var(--line); stroke-width:1.2}
+.flow .n.gate{stroke:var(--accent); stroke-width:1.8}
+.flow .t{font-family:var(--body); font-weight:600; font-size:13.5px; fill:var(--ink)}
+.flow .s{font-family:var(--mono); font-size:11px; fill:var(--muted)}
+.flow .r{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; fill:var(--muted); text-transform:uppercase}
+.flow .a{stroke:var(--muted); stroke-width:1.4; fill:none}
+.flow .h{fill:var(--muted)}
+.facts{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(15rem,1fr)); gap:.55rem 1.8rem}
+.facts li{position:relative; padding-left:1.1rem; font-size:.94rem}
+.facts li::before{content:""; position:absolute; left:0; top:.62em; width:.5rem; height:.5rem; border-radius:50%; background:var(--accent)}
+.note{margin-top:1.1rem; font-size:.88rem; color:var(--muted); border-top:1px dashed var(--line); padding-top:.9rem}
+.links{display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1.3rem}
+
+/* compact project rows */
+.rows{margin-top:2rem; border-top:1px solid var(--line)}
+.row{display:grid; grid-template-columns:10rem minmax(0,1fr) auto; gap:.3rem 2rem; padding-block:1.15rem; border-bottom:1px solid var(--line); align-items:baseline}
+.row .tag{font-family:var(--mono); font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent)}
+.row h3{font-size:1.05rem}
+.row p{color:var(--muted); font-size:.93rem; margin-top:.2rem; max-width:40rem}
+.row .go{font-family:var(--mono); font-size:.8rem; white-space:nowrap}
+.row .go.off{color:var(--muted)}
+.more{margin-top:1.1rem; font-size:.92rem}
+
+/* skills */
+.skills{display:grid; border-top:1px solid var(--line); margin:0}
+.skills>div{display:grid; grid-template-columns:10rem minmax(0,1fr); gap:.3rem 2rem; padding-block:1rem; border-bottom:1px solid var(--line)}
+.skills dt{font-family:var(--mono); font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); padding-top:.15rem}
+.skills dd{margin:0; display:flex; flex-wrap:wrap; gap:.4rem}
+.chip{font-family:var(--mono); font-size:.78rem; padding:.15rem .55rem; border:1px solid var(--line); border-radius:5px; background:var(--surface)}
+
+/* contact */
+.mail{display:flex; flex-wrap:wrap; align-items:center; gap:.7rem 1rem; margin-top:1.3rem}
+.addr{font-family:var(--mono); font-size:1.05rem; user-select:all; overflow-wrap:anywhere}
+footer{margin-top:4rem; padding-block:1.6rem 2.2rem; border-top:1px solid var(--line); font-family:var(--mono); font-size:.76rem; color:var(--muted); display:flex; flex-wrap:wrap; justify-content:space-between; gap:.4rem 1.5rem}
+
+@media (max-width:640px){
+  .role,.row,.skills>div{grid-template-columns:minmax(0,1fr)}
+  .row .go{justify-self:start; margin-top:.3rem}
+  .term dl>div{grid-template-columns:minmax(0,1fr)}
+  .term dt{font-size:.74rem}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+  <header class="top">
+    <a class="mark" href="#top" id="top">manish<b>.</b>kumar</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#journey">Journey</a>
+      <a href="#work">Work</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="h-hero">
+      <p class="label">Senior Automation Test Engineer &middot; SDET &middot; Frankfurt am Main</p>
+      <h1 id="h-hero">I test banking software and automate the checks.</h1>
+      <p class="lede">16 years in software testing, 8+ of them in test automation, with deep German banking experience at ING Bank and ING-DiBa. I build Selenium, Cucumber and Playwright suites, run them in CI/CD, and now work across Docker, Terraform, Kubernetes and observability.</p>
+      <div class="cta">
+        <a class="btn primary" href="#work">See the QABank project</a>
+        <a class="btn" href="ManishKumar_SDET.pdf" target="_blank" rel="noopener">Resume (PDF) &#8599;</a>
+        <a class="btn" href="https://linkedin.com/in/kumar05/" target="_blank" rel="noopener">LinkedIn &#8599;</a>
+        <a class="btn" href="https://github.com/Manish12588" target="_blank" rel="noopener">GitHub &#8599;</a>
+      </div>
+
+      <div class="term" role="group" aria-label="Current status">
+        <div class="term-bar"><i aria-hidden="true"></i><span>manish@frankfurt ~/status</span></div>
+        <dl>
+          <div><dt>last role</dt><dd>Test Lead, HCL Technologies GmbH (Jun 2022 &ndash; Aug 2026)</dd></div>
+          <div><dt>experience</dt><dd>16 years in testing, 8+ in automation</dd></div>
+          <div><dt>based</dt><dd>Frankfurt am Main, Germany (EU Blue Card)</dd></div>
+          <div><dt>building</dt><dd>Playwright, TypeScript, GitHub Actions, Docker</dd></div>
+          <div><dt>open to</dt><dd>Senior QA Automation and Automation Lead roles</dd></div>
+          <div><dt>latest run</dt><dd><a href="https://manish12588.github.io/qa-bank-app/latest/" target="_blank" rel="noopener">QABank pipeline report &#8599;</a></dd></div>
+        </dl>
+        <div class="prompt"><b>$</b> <span class="caret" aria-hidden="true"></span></div>
+      </div>
+    </section>
+
+    <section id="journey" aria-labelledby="h-journey">
+      <div class="sec-head">
+        <p class="label">Journey</p>
+        <h2 id="h-journey">From manual testing to pipelines</h2>
+        <p>Sixteen years in testing. Automation became the main job from 2016, and again from late 2020 after a stretch of ETL and API testing.</p>
+      </div>
+      <div class="timeline">
+        <article class="role">
+          <div class="when">Jun 2022 &ndash; Aug 2026</div>
+          <div>
+            <h3>Test Lead <span>&middot;</span> HCL Technologies GmbH</h3>
+            <div class="where">Business Banking, ING Bank (Germany), Frankfurt</div>
+            <p>Designed a Selenium, Java and Cucumber BDD framework with Page Object Model and TestNG parallel runs on Chrome, Firefox and Edge. 80 of 100 regression cases automated, regression time down from 14 hours to 4 (71%), and zero missed regressions across 6 releases. Jenkins runs it on every release-branch merge, Allure replaced manual Excel reporting, and Docker with Ansible containerised the test environments. Commit-to-production fell from 2&ndash;3 business days to 4&ndash;6 hours, and releases moved from weekly to on demand.</p>
+          </div>
+        </article>
+        <article class="role">
+          <div class="when">Oct 2020 &ndash; Apr 2022</div>
+          <div>
+            <h3>Sr. Automation Engineer <span>&middot;</span> AgFirst Farm Credit Bank (TCS)</h3>
+            <div class="where">Remote, US client</div>
+            <p>Wrote TestComplete scripts from manual scenarios for a Loan System Replacement platform built on Microsoft technologies, and kept the regression suite and data repositories current across releases.</p>
+          </div>
+        </article>
+        <article class="role">
+          <div class="when">Jan 2020 &ndash; Aug 2020</div>
+          <div>
+            <h3>Test Engineer <span>&middot;</span> SME Business, ING Bank (TCS)</h3>
+            <div class="where">SME loan-processing platform</div>
+            <p>Functional, integration and end-to-end testing of REST services, a data warehouse and account management systems, with Oracle SQL backend checks. Proposed automating the regression suite with Rest-Assured and Selenium.</p>
+          </div>
+        </article>
+        <article class="role">
+          <div class="when">Jul 2017 &ndash; Dec 2019</div>
+          <div>
+            <h3>Tester <span>&middot;</span> OWB-to-DataStage migration, ING-DiBa (TCS)</h3>
+            <div class="where">ETL and data-migration testing</div>
+            <p>Validated ETL jobs moved from Oracle Warehouse Builder to IBM DataStage: SQL checks on completeness and business rules, source-to-target reconciliation, and daily job runs scheduled in Automic UC4.</p>
+          </div>
+        </article>
+        <article class="role">
+          <div class="when">Feb 2016 &ndash; Jun 2017</div>
+          <div>
+            <h3>Test Automation Engineer <span>&middot;</span> DBS, Home Office (TCS)</h3>
+            <div class="where">UK Government online referral portal</div>
+            <p>Built a Selenium WebDriver (Java) framework with Page Object Model and TestNG for the DBS barring-referral portal, with property-file-driven runs on Chrome, Firefox and Internet Explorer.</p>
+          </div>
+        </article>
+        <article class="role">
+          <div class="when">Aug 2010 &ndash; Feb 2016</div>
+          <div>
+            <h3>Magic Software Pvt. Ltd.</h3>
+            <div class="where">Noida, India</div>
+            <p>Functional, regression and smoke testing across web applications, with test cases, plans and defect reports in JIRA. Contributed to a Selenium and Java UI framework that cut manual regression.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="work" aria-labelledby="h-work">
+      <div class="sec-head">
+        <p class="label">Selected work</p>
+        <h2 id="h-work">Things I built to prove the skills</h2>
+      </div>
+
+      <article class="feature">
+        <p class="label">Featured &middot; Playwright and CI/CD</p>
+        <h3>QABank</h3>
+        <p>A small banking app (REST API and web UI) in Docker, made as a stable target for test automation, with a separate Playwright and TypeScript suite of 50 tests. A GitHub Actions pipeline tests every pull request and promotes manually through DEV, QA and STAGE, publishing the reports to GitHub Pages.</p>
+
+        <div class="flow-wrap">
+          <svg class="flow" viewBox="0 0 760 176" role="img" aria-label="Two flows. On every pull request: pull request, e2e check running all 50 tests, red or green result on the pull request. Manual promotion: DEV smoke tests, QA full regression, STAGE smoke tests after approval, reports on GitHub Pages.">
+            <text class="r" x="0" y="12">every pull request</text>
+            <rect class="n" x="0" y="20" width="160" height="52" rx="8"/>
+            <text class="t" x="14" y="42">Pull request</text><text class="s" x="14" y="59">app change</text>
+            <path class="a" d="M160 46H196"/><path class="h" d="M196 41l8 5-8 5z"/>
+            <rect class="n" x="204" y="20" width="160" height="52" rx="8"/>
+            <text class="t" x="218" y="42">e2e check</text><text class="s" x="218" y="59">all 50 tests</text>
+            <path class="a" d="M364 46H396"/><path class="h" d="M396 41l8 5-8 5z"/>
+            <rect class="n" x="404" y="20" width="160" height="52" rx="8"/>
+            <text class="t" x="418" y="42">Red or green</text><text class="s" x="418" y="59">shown on the PR</text>
+
+            <text class="r" x="0" y="106">manual promotion</text>
+            <rect class="n" x="0" y="114" width="160" height="52" rx="8"/>
+            <text class="t" x="14" y="136">DEV</text><text class="s" x="14" y="153">smoke tests</text>
+            <path class="a" d="M160 140H176"/><path class="h" d="M176 135l8 5-8 5z"/>
+            <rect class="n" x="184" y="114" width="160" height="52" rx="8"/>
+            <text class="t" x="198" y="136">QA</text><text class="s" x="198" y="153">full regression</text>
+            <path class="a" d="M344 140H368"/><path class="h" d="M368 135l8 5-8 5z"/>
+            <rect class="n gate" x="376" y="114" width="176" height="52" rx="8"/>
+            <text class="t" x="390" y="136">STAGE</text><text class="s" x="390" y="153">smoke, after approval</text>
+            <path class="a" d="M552 140H576"/><path class="h" d="M576 135l8 5-8 5z"/>
+            <rect class="n" x="584" y="114" width="176" height="52" rx="8"/>
+            <text class="t" x="598" y="136">Reports</text><text class="s" x="598" y="153">GitHub Pages</text>
+          </svg>
+        </div>
+
+        <ul class="facts">
+          <li>31 API and 19 UI tests, tagged smoke or regression</li>
+          <li>Smoke on DEV and STAGE, full regression on QA</li>
+          <li>STAGE waits for a manual approval</li>
+          <li>HTML and reportingLabs reports on every run</li>
+          <li>A demo script plants a bug to show the check going red</li>
+          <li>Each stage only starts if the one before it passed</li>
+        </ul>
+        <p class="note">DEV, QA and STAGE are simulated: one Docker image, with a different port and test selection per stage. The point is the promotion logic, the approval gate and the reporting.</p>
+        <div class="links">
+          <a class="btn primary" href="https://github.com/Manish12588/qa-bank-app-test" target="_blank" rel="noopener">Test repo &#8599;</a>
+          <a class="btn" href="https://github.com/Manish12588/qa-bank-app" target="_blank" rel="noopener">App repo &#8599;</a>
+          <a class="btn" href="https://manish12588.github.io/qa-bank-app/latest/" target="_blank" rel="noopener">Pipeline report &#8599;</a>
+          <a class="btn" href="https://manish12588.github.io/qa-bank-app-test/latest/" target="_blank" rel="noopener">Test report &#8599;</a>
+        </div>
+      </article>
+
+      <div class="rows">
+        <article class="row">
+          <div class="tag">CI/CD &middot; DevSecOps</div>
+          <div><h3>NoteVault</h3><p>A Flask app taken from commit to AWS EC2: Docker multi-stage build, Trivy scan, Terraform, Ansible and GitHub Actions.</p></div>
+          <a class="go" href="https://github.com/Manish12588/my-notes-app" target="_blank" rel="noopener">repo &#8599;</a>
+        </article>
+        <article class="row">
+          <div class="tag">Observability</div>
+          <div><h3>Observability stack on AWS</h3><p>Prometheus, Grafana, Loki, Promtail, cAdvisor, Node Exporter and OpenTelemetry on Docker Compose, wired to a Flask app.</p></div>
+          <span class="go off"></span>
+        </article>
+        <article class="row">
+          <div class="tag">Kubernetes</div>
+          <div><h3>WordPress and MySQL on KIND</h3><p>Multi-tier app on a local cluster with Helm: a MySQL StatefulSet, persistent volumes, ConfigMaps and Secrets.</p></div>
+          <span class="go off"></span>
+        </article>
+        <article class="row">
+          <div class="tag">Infrastructure as code</div>
+          <div><h3>Terraform modules for AWS</h3><p>Reusable modules for VPC, EC2 and EKS, with S3 remote state, DynamoDB locking and a generated Ansible inventory.</p></div>
+          <span class="go off"></span>
+        </article>
+        <article class="row">
+          <div class="tag">Client work</div>
+          <div><h3>Enterprise automation framework</h3><p>Selenium, Java, Cucumber BDD, Jenkins and Allure, with Docker and Ansible environments. 80 of 100 regression cases automated, regression time cut from 14 hours to 4. Not public.</p></div>
+          <span class="go off">private</span>
+        </article>
+      </div>
+      <p class="more"><a href="https://github.com/Manish12588" target="_blank" rel="noopener">More on GitHub &#8599;</a></p>
+    </section>
+
+    <section id="skills" aria-labelledby="h-skills">
+      <div class="sec-head">
+        <p class="label">Skills</p>
+        <h2 id="h-skills">What I work with</h2>
+      </div>
+      <dl class="skills">
+        <div><dt>Test automation</dt><dd><span class="chip">Playwright</span><span class="chip">Selenium WebDriver</span><span class="chip">TestComplete</span><span class="chip">Cucumber BDD</span><span class="chip">TestNG</span><span class="chip">JUnit</span><span class="chip">Rest-Assured</span><span class="chip">Postman</span><span class="chip">Page Object Model</span></dd></div>
+        <div><dt>CI/CD</dt><dd><span class="chip">GitHub Actions</span><span class="chip">Jenkins</span><span class="chip">Azure Pipelines</span><span class="chip">Docker</span><span class="chip">Docker Compose</span><span class="chip">Ansible</span><span class="chip">Trivy</span><span class="chip">GitHub Pages reports</span></dd></div>
+        <div><dt>Cloud and infra</dt><dd><span class="chip">Terraform</span><span class="chip">AWS EC2</span><span class="chip">S3</span><span class="chip">IAM</span><span class="chip">VPC</span><span class="chip">EKS</span></dd></div>
+        <div><dt>Kubernetes</dt><dd><span class="chip">KIND</span><span class="chip">Helm</span><span class="chip">StatefulSets</span><span class="chip">ConfigMaps</span><span class="chip">Secrets</span><span class="chip">PersistentVolumes</span></dd></div>
+        <div><dt>Observability</dt><dd><span class="chip">Prometheus</span><span class="chip">Grafana</span><span class="chip">Loki</span><span class="chip">Promtail</span><span class="chip">cAdvisor</span><span class="chip">OpenTelemetry</span></dd></div>
+        <div><dt>Languages</dt><dd><span class="chip">TypeScript</span><span class="chip">Java</span><span class="chip">Python</span><span class="chip">JavaScript</span><span class="chip">Bash</span><span class="chip">SQL</span><span class="chip">Gherkin</span><span class="chip">YAML</span></dd></div>
+        <div><dt>Leading</dt><dd><span class="chip">Test Lead</span><span class="chip">Sprint planning</span><span class="chip">Stakeholder reporting</span><span class="chip">Mentoring</span><span class="chip">Root cause analysis</span><span class="chip">JIRA</span><span class="chip">Azure Boards</span><span class="chip">Confluence</span><span class="chip">Allure</span></dd></div>
+        <div><dt>Certified</dt><dd><span class="chip">CP-SAT</span><span class="chip">CP-WST</span><span class="chip">CSM</span><span class="chip">CP-DOF</span><span class="chip">Certified DevOps Associate</span></dd></div>
+      </dl>
+    </section>
+
+    <section id="contact" aria-labelledby="h-contact">
+      <div class="sec-head">
+        <p class="label">Contact</p>
+        <h2 id="h-contact">Looking for a Senior QA Automation or Automation Lead role in Frankfurt?</h2>
+        <p>I am open to those roles, and happy to talk about test automation, pipelines and DevOps.</p>
+      </div>
+      <div class="mail">
+        <span class="addr" id="addr">manish1561988@gmail.com</span>
+        <button class="btn" type="button" id="copy">Copy address</button>
+        <span id="copied" role="status" aria-live="polite" style="font-family:var(--mono);font-size:.8rem;color:var(--muted)"></span>
+      </div>
+      <div class="links">
+        <a class="btn" href="ManishKumar_SDET.pdf" target="_blank" rel="noopener">Resume (PDF) &#8599;</a>
+        <a class="btn" href="https://linkedin.com/in/kumar05/" target="_blank" rel="noopener">LinkedIn &#8599;</a>
+        <a class="btn" href="https://github.com/Manish12588" target="_blank" rel="noopener">GitHub &#8599;</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Manish Kumar &middot; Frankfurt am Main</span>
+    <span>2026</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var btn=document.getElementById('copy'), out=document.getElementById('copied'), addr=document.getElementById('addr');
+  if(!btn) return;
+  function say(t){ out.textContent=t; setTimeout(function(){ out.textContent=''; },2200); }
+  function select(){
+    var r=document.createRange(); r.selectNodeContents(addr);
+    var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  }
+  btn.addEventListener('click',function(){
+    var text=addr.textContent.trim();
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ say('Copied'); },function(){ select(); say('Press Ctrl+C to copy'); });
+    } else { select(); say('Press Ctrl+C to copy'); }
+  });
+})();
+</script>
+
+</body>
+</html>
